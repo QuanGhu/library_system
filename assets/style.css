@@ -1,0 +1,11 @@
+.login {
+    border: 1px solid #000;
+    width: 50%;
+    margin: 0 auto;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.table-hover {
+    margin-top: 25px;
+}
