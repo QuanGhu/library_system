@@ -1,3 +1,9 @@
+<?php
+    include "../../connection.php";
+
+    $query = "SELECT * FROM categories";
+    $result = $conn->query($query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +44,22 @@
                 </tr>
             </thead>
             <tbody>
-            
+                <?php
+                    if($result->num_rows > 0) {
+                        
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr>
+                                <td>".$row['id']."</td>
+                                <td>".$row['name']."</td>
+                                <td>
+                                    <a href='#'>Edit</a>
+                                    <a href='#'>Hapus</a>
+                                </td>
+                            </tr>";
+                        }
+                    }
+                    
+                ?>
             </tbody>
         </table>
     </div>

@@ -1,3 +1,19 @@
+<?php
+    include "../../connection.php";
+
+    if(isset($_POST['name'])) {
+        $query = "INSERT INTO categories (name)
+            VALUES ('".$_POST['name']."')
+        ";
+
+        if($conn->query($query) === TRUE) {
+            echo "Data berhasil disimpan";
+        } else {
+            echo $conn->error;
+        }
+    }
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
