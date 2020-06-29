@@ -3,6 +3,23 @@
 
     $query = "SELECT * FROM categories";
     $result = $conn->query($query);
+
+    if(isset($_GET['delete'])) {
+        $id = $_GET['delete'];
+
+        $query = "DELETE FROM categories 
+            where id =". $id;
+
+            if($conn->query($query) === TRUE) {
+                echo "<script>
+                    alert('Data berhasil dihapus')
+                    windows.location.href='
+                    http://localhost/library_system/admin/category/'
+                </script>";
+            } else {
+                echo $conn->error;
+            }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +46,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/library_system/admin/">Beranda</a></li>
                 <li><a href="/library_system/admin/category">Kategori</a></li>
+                <li><a href="/library_system/admin/staff/">Admin</a></li>
             </ul>
         </div>
     </nav>
@@ -52,8 +70,8 @@
                                 <td>".$row['id']."</td>
                                 <td>".$row['name']."</td>
                                 <td>
-                                    <a href='#'>Edit</a>
-                                    <a href='#'>Hapus</a>
+                                    <a href='edit.php?id=".$row['id']."'>Edit</a>
+                                    <a href='index.php?delete=".$row['id']."'>Hapus</a>
                                 </td>
                             </tr>";
                         }

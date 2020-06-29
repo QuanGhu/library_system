@@ -1,3 +1,26 @@
+<?php
+    include "../../connection.php";
+
+    $id = $_GET['id'];
+
+    $query = "SELECT * FROM categories where
+        id = ".$id;
+    $result = $conn->query($query);
+    $row = $result->fetch_assoc();
+    
+    if(isset($_POST['name']) && isset($_POST['id'])) {
+        $query = "UPDATE categories
+            SET name='".$_POST['name']."'
+            Where id =".$_POST['id'];
+
+        if($conn->query($query) === TRUE) {
+            echo "Data berhasil diperbarui";
+        } else {
+            echo $conn->error;
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,15 +46,20 @@
             <ul class="nav navbar-nav">
                 <li><a href="/library_system/admin/">Beranda</a></li>
                 <li><a href="/library_system/admin/category">Kategori</a></li>
+                <li><a href="/library_system/admin/staff/">Admin</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="container">
         <form action="" method="post">
+            <input type="hidden" name="id" 
+                value="<?php echo $row['id']; ?>">
             <div class="form-group">
                 <label for="">Nama</label>
-                <input type="text" name="name" id="" required class="form-control">
+                <input type="text" name="name" id="" required 
+                    class="form-control" 
+                    value="<?php echo $row['name']; ?>">
             </div>
             <a href="/library_system/admin/category" class="btn btn-default">Batal</a>
             <button type="submit" class="btn btn-primary">Perbarui</button>

@@ -39,6 +39,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/library_system/admin/">Beranda</a></li>
                 <li><a href="/library_system/admin/category">Kategori</a></li>
+                <li><a href="/library_system/admin/staff/">Admin</a></li>
             </ul>
         </div>
     </nav>
