@@ -7,11 +7,18 @@
     if(isset($_POST['name']) && isset($_POST['author'])
         && isset($_POST['category_id']) && isset($_POST['total']) ) {
 
+        $namaFile = $_FILES['picture']['name'];
+        $namaSementara = $_FILES['picture']['tmp_name'];
+        
+        // tentukan lokasi file akan dipindahkan
+        $dirUpload = "../../uploads/";
+        $terupload = move_uploaded_file($namaSementara, $dirUpload.$namaFile);
+
         $name = $_POST['name'];
         $author = $_POST['author'];
         $category_id = $_POST['category_id'];
         $total = $_POST['total'];
-        $picture = $_POST['picture'];
+        $picture = $namaFile;
 
         $query = "INSERT INTO books (name,author,category_id,total,picture)
             VALUES ('".$name."','".$author."','".$category_id."','".$total."','".$picture."')

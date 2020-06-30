@@ -77,7 +77,7 @@
                             $category = $exec_category->fetch_assoc();
                             echo "<tr>
                                 <td>".$row['id']."</td>
-                                <td>".$row['picture']."</td>
+                                <td><img src=/library_system/uploads/".$row['picture']." class='img-responsive'></td>
                                 <td>".$row['name']."</td>
                                 <td>".$row['author']."</td>
                                 <td>".$row['total']."</td>
