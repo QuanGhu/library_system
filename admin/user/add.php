@@ -11,7 +11,7 @@
         $address = $_POST['address'];
         $password = md5($_POST['password']);
 
-        $query = "INSERT INTO admins (email,password,name,phone,address)
+        $query = "INSERT INTO users (email,password,name,phone,address)
             VALUES ('".$email."','".$password."','".$name."','".$phone."','".$address."')
         ";
 

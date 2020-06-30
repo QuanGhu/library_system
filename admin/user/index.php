@@ -1,21 +1,18 @@
 <?php
     include "../../connection.php";
 
-    $query = "SELECT * FROM categories";
+    $query = "SELECT * FROM users";
     $result = $conn->query($query);
 
     if(isset($_GET['delete'])) {
         $id = $_GET['delete'];
 
-        $query = "DELETE FROM categories 
+        $query = "DELETE FROM users 
             where id =". $id;
 
             if($conn->query($query) === TRUE) {
-                echo "<script>
-                    alert('Data berhasil dihapus')
-                    windows.location.href='
-                    http://localhost/library_system/admin/category/'
-                </script>";
+                echo "Data berhasil dihapus";
+                header('Location: index.php');
             } else {
                 echo $conn->error;
             }
@@ -53,12 +50,15 @@
     </nav>
 
     <div class="container">
-        <a href="add.php" class="btn btn-primary">Tambah Kategori</a>
+        <a href="add.php" class="btn btn-primary">Tambah User</a>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>NO</th>
                     <th>Nama</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -70,6 +70,9 @@
                             echo "<tr>
                                 <td>".$row['id']."</td>
                                 <td>".$row['name']."</td>
+                                <td>".$row['email']."</td>
+                                <td>".$row['phone']."</td>
+                                <td>".$row['address']."</td>
                                 <td>
                                     <a href='edit.php?id=".$row['id']."'>Edit</a>
                                     <a href='index.php?delete=".$row['id']."'>Hapus</a>

@@ -1,6 +1,13 @@
 <?php
     include "../../connection.php";
 
+    $id = $_GET['id'];
+
+    $query = "SELECT * FROM users where
+        id = ".$id;
+    $result = $conn->query($query);
+    $row = $result->fetch_assoc();
+
     if(isset($_POST['name']) && isset($_POST['email'])
         && isset($_POST['phone']) && isset($_POST['address'])
         && isset($_POST['password'])) {
@@ -11,12 +18,13 @@
         $address = $_POST['address'];
         $password = md5($_POST['password']);
 
-        $query = "INSERT INTO admins (email,password,name,phone,address)
-            VALUES ('".$email."','".$password."','".$name."','".$phone."','".$address."')
+        $query = "UPDATE users SET email ='".$email."',
+            password ='".$password."', name ='".$name."',
+            phone ='".$phone."', address ='".$address."'
         ";
 
         if($conn->query($query) === TRUE) {
-            echo "Data berhasil disimpan";
+            echo "Data berhasil diperbarui";
             header('Location: index.php');
             exit;
         } else {
@@ -60,11 +68,15 @@
         <form action="" method="post">
             <div class="form-group">
                 <label for="">Nama</label>
-                <input type="text" name="name" id="" required class="form-control">
+                <input type="text" name="name" id="" 
+                    required class="form-control"
+                    value="<?php echo $row['name']; ?>" >
             </div>
             <div class="form-group">
                 <label for="">Email</label>
-                <input type="email" name="email" id="" required class="form-control">
+                <input type="email" name="email" id="" required 
+                class="form-control"
+                value="<?php echo $row['email']; ?>" >
             </div>
             <div class="form-group">
                 <label for="">Password</label>
@@ -72,11 +84,13 @@
             </div>
             <div class="form-group">
                 <label for="">Phone</label>
-                <input type="text" name="phone" id="" required class="form-control">
+                <input type="text" name="phone" id="" required class="form-control"
+                value="<?php echo $row['phone']; ?>" >
             </div>
             <div class="form-group">
                 <label for="">Alamat</label>
-                <input type="text" name="address" id="" required class="form-control">
+                <input type="text" name="address" id="" required class="form-control" 
+                value="<?php echo $row['address']; ?>">
             </div>
             <a href="/library_system/admin/staff" class="btn btn-default">Batal</a>
             <button type="submit" class="btn btn-primary">Simpan</button>
