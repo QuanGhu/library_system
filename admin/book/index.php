@@ -1,18 +1,21 @@
 <?php
     include "../../connection.php";
 
-    $query = "SELECT * FROM admins";
+    $query = "SELECT * FROM books";
     $result = $conn->query($query);
 
     if(isset($_GET['delete'])) {
         $id = $_GET['delete'];
 
-        $query = "DELETE FROM admins 
+        $query = "DELETE FROM books 
             where id =". $id;
 
             if($conn->query($query) === TRUE) {
-                echo "Data berhasil dihapus";
-                header('Location: index.php');
+                echo "<script>
+                    alert('Data berhasil dihapus')
+                    windows.location.href='
+                    http://localhost/library_system/admin/book/'
+                </script>";
             } else {
                 echo $conn->error;
             }
@@ -51,15 +54,16 @@
     </nav>
 
     <div class="container">
-        <a href="add.php" class="btn btn-primary">Tambah Staff</a>
+        <a href="add.php" class="btn btn-primary">Tambah Book</a>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>NO</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
+                    <th>Picture</th>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>Total</th>
+                    <th>Category</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -68,12 +72,16 @@
                     if($result->num_rows > 0) {
                         
                         while($row = $result->fetch_assoc()) {
+                            $queryTakeCategory = "SELECT * FROM categories where id = ".$row['category_id'];
+                            $exec_category = $conn->query($queryTakeCategory);
+                            $category = $exec_category->fetch_assoc();
                             echo "<tr>
                                 <td>".$row['id']."</td>
+                                <td>".$row['picture']."</td>
                                 <td>".$row['name']."</td>
-                                <td>".$row['email']."</td>
-                                <td>".$row['phone']."</td>
-                                <td>".$row['address']."</td>
+                                <td>".$row['author']."</td>
+                                <td>".$row['total']."</td>
+                                <td>".$category['name']."</td>
                                 <td>
                                     <a href='edit.php?id=".$row['id']."'>Edit</a>
                                     <a href='index.php?delete=".$row['id']."'>Hapus</a>

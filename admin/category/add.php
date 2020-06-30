@@ -41,6 +41,7 @@
                 <li><a href="/library_system/admin/category">Kategori</a></li>
                 <li><a href="/library_system/admin/staff/">Admin</a></li>
                 <li><a href="/library_system/admin/user/">User</a></li>
+                <li><a href="/library_system/admin/book/">Book</a></li>
             </ul>
         </div>
     </nav>

@@ -3,35 +3,31 @@
 
     $id = $_GET['id'];
 
-    $query = "SELECT * FROM users where
+    $query = "SELECT * FROM books where
         id = ".$id;
     $result = $conn->query($query);
     $row = $result->fetch_assoc();
+    
+    $queryCategory = "SELECT * FROM categories";
+    $resultCategory = $conn->query($queryCategory);
 
-    if(isset($_POST['name']) && isset($_POST['email'])
-        && isset($_POST['phone']) && isset($_POST['address'])
-        && isset($_POST['password'])) {
+    if(isset($_POST['name']) && isset($_POST['author'])
+        && isset($_POST['category_id']) && isset($_POST['total'])) {
+        $query = "UPDATE books
+            SET name='".$_POST['name']."',
+                author='".$_POST['author']."',
+                category_id='".$_POST['category_id']."',
+                total='".$_POST['total']."'
 
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $address = $_POST['address'];
-        $password = md5($_POST['password']);
-
-        $query = "UPDATE users SET email ='".$email."',
-            password ='".$password."', name ='".$name."',
-            phone ='".$phone."', address ='".$address."'
-        ";
+            Where id =".$_POST['id'];
 
         if($conn->query($query) === TRUE) {
             echo "Data berhasil diperbarui";
             header('Location: index.php');
-            exit;
         } else {
             echo $conn->error;
         }
     }
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,34 +62,40 @@
     </nav>
 
     <div class="container">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
             <div class="form-group">
-                <label for="">Nama</label>
-                <input type="text" name="name" id="" 
-                    required class="form-control"
-                    value="<?php echo $row['name']; ?>" >
+                <label for="">Name</label>
+                <input type="text" name="name" id="" required class="form-control" 
+                    value="<?php echo $row['name']; ?>">
             </div>
             <div class="form-group">
-                <label for="">Email</label>
-                <input type="email" name="email" id="" required 
-                class="form-control"
-                value="<?php echo $row['email']; ?>" >
+                <label for="">Author</label>
+                <input type="text" name="author" id="" required class="form-control"
+                value="<?php echo $row['author']; ?>">
             </div>
             <div class="form-group">
-                <label for="">Password</label>
-                <input type="password" name="password" id="" required class="form-control">
+                <label for="">Category</label>
+                <select name="category_id" class="form-control">
+                    <?php
+                        if($resultCategory->num_rows > 0) {
+                            while($row = $resultCategory->fetch_assoc()) {
+                                echo "<option value=".$row['id'].">".$row['name']."</option>";
+                            }
+                        }
+                    ?>
+                </select>
             </div>
             <div class="form-group">
-                <label for="">Phone</label>
-                <input type="text" name="phone" id="" required class="form-control"
-                value="<?php echo $row['phone']; ?>" >
+                <label for="">Total</label>
+                <input type="number" name="total" id="" required class="form-control"
+                value="<?php echo $row['total']; ?>">
             </div>
             <div class="form-group">
-                <label for="">Alamat</label>
-                <input type="text" name="address" id="" required class="form-control" 
-                value="<?php echo $row['address']; ?>">
+                <label for="">Picture</label>
+                <input type="file" name="picture" class="form-control">
             </div>
-            <a href="/library_system/admin/staff" class="btn btn-default">Batal</a>
+            <a href="/library_system/admin/category" class="btn btn-default">Batal</a>
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
